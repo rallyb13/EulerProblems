@@ -166,4 +166,23 @@ factorFigure = function(num) {
   return product;
 } // returns 232792560 (2, 2, 2, 2, 3, 3, 5, 7, 11, 13, 17, 19)
 // I am the 346707th to solve this
-// Must not look at next problem until I want to solve it, or else I will sit down and solve it
+// Must not look at next problem until I want to solve it, or else I will sit down and solve it immediately
+
+
+// Euler Problem #6
+// The Difference between the sum of all squares vs. the square of all sums for numbers 1-100
+sumSquareDiff = function (num) {
+  var basicSum = 0,
+    squareSum = 0,
+    bsSquared = 0
+    difference = 0;
+  
+  for (var i=1; i <= num; i++) {
+    basicSum += i;
+    squareSum += (i * i);
+  }
+  bsSquared = basicSum * basicSum;
+  difference = bsSquared - squareSum;
+  return difference
+} // returns 25164150
+// I am the 348767th to solve this
