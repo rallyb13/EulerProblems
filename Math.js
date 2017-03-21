@@ -134,3 +134,36 @@ highPal = function() {
 } // returns 906609 (993 x 913)
 // I am the 336435th to solve this
 // that took some real thinking about the times tables and how to get the exact next highest product!
+
+
+// Euler Problem #5
+// Smallest Multiple of numbers up to 20 (inclusive)
+factorFigure = function(num) {
+  var product = 1,
+    possibleFactors = [],
+    updatedArray = [],
+    factor,
+    j;
+  
+  for (var i = 2; i <= num; i++) {
+    possibleFactors.push(i);
+  }
+
+  while (possibleFactors.length > 0) {
+    factor = possibleFactors.shift();
+    product = product * factor;
+    for (j=0; j < possibleFactors.length; j++) {
+      if (possibleFactors[j] % factor !== 0) {
+        updatedArray.push(possibleFactors[j]);
+      } else if (possibleFactors[j] !== factor) {
+        updatedArray.push(possibleFactors[j] / factor);
+      }
+    }
+    possibleFactors = updatedArray;
+    // console.log(possibleFactors);
+    updatedArray = [];
+  }
+  return product;
+} // returns 232792560 (2, 2, 2, 2, 3, 3, 5, 7, 11, 13, 17, 19)
+// I am the 346707th to solve this
+// Must not look at next problem until I want to solve it, or else I will sit down and solve it
