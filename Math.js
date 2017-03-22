@@ -214,3 +214,63 @@ nthPrime = function(target) {
   return primes[target -1]
 } // returns 104743
 // I am the 298922nd to solve this.
+
+
+// Euler #8 (in two functions)
+// Find the largest product created by taking a 13-digit segment of  1000-digit number
+prodSegment = function(input) { //input is a number entered as a STRING!
+  var candidates = input.split("0"),
+    nonZeroSets = [],
+    trueCandids = [],
+    integers = [],
+    saveLast = true,
+    counter = 0;
+    
+  // just break into basic fragments
+  for (var i=0; i < candidates.length; i++) {
+    if (candidates[i].length === 13) {
+      trueCandids.push(candidates[i]);
+    } else if (candidates[i].length > 13) {
+      nonZeroSets.push(candidates[i]);
+    }
+  }
+  
+  // break up bigger fragments, eliminating lower-neighbors along the way
+  for (var j=0; j < nonZeroSets.length; j++) {
+    integers = nonZeroSets[j].split("");
+    counter = 0;
+    while (integers.length > 13) {
+      if (integers[0] > integers[13]) {
+        trueCandids.push(nonZeroSets[j].substr(counter, 13));
+        integers.shift(); // recorded better of two, move past both (skipping retests: 112 vs. 83!)
+        ++counter
+        saveLast = false;
+      } else {
+        saveLast = true; // hang on to better of two for next test, ensure recording if this is last of set
+      }
+      integers.shift();
+      ++counter
+    }
+    if (saveLast === true){
+      trueCandids.push(nonZeroSets[j].substr(-13));
+    }
+  }
+  return trueCandids
+} // array of stringified 13-digit numbers
+
+highestProd = function(array) { // takes array of stringified numbers
+  var bestProd = 1,
+    currentProd = 1;
+  
+  for (var i=0; i < array.length; i++) { // deal with each string in array
+    for (var j=0; j < array[i].length; j++) { // deal with each char in string
+      currentProd = currentProd * array[i][j];
+    }
+    console.log(currentProd);
+    bestProd = (bestProd > currentProd) ? bestProd : currentProd;
+    currentProd = 1;
+  }
+  
+  return bestProd;
+} // returns 23514624000 (from 5576689664895)
+// I am the 254350th to solve this
