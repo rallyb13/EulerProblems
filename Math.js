@@ -186,3 +186,31 @@ sumSquareDiff = function (num) {
   return difference
 } // returns 25164150
 // I am the 348767th to solve this
+
+
+// Euler Problem #7
+// 10,001st prime number (YIKES!)
+nthPrime = function(target) {
+  var primes = [],
+    counter = 1,
+    isComposite,
+    i;
+  
+  while (primes.length < target) {
+    ++counter;
+    isComposite = false;
+    for (i=0; i < primes.length; i++) {
+      if (counter % primes[i] === 0) {
+        isComposite = true;
+        break;
+      }
+    }
+    if (isComposite === false) {
+      primes.push(counter);
+      // console.log("prime: " + counter);
+      // console.log("count:" + primes.length);
+    }
+  }
+  return primes[target -1]
+} // returns 104743
+// I am the 298922nd to solve this.
