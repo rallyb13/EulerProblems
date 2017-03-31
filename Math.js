@@ -279,7 +279,7 @@ highestProd = function(array) { // takes array of stringified numbers
 // Product of Pythagorean positive integer set where a+b+c=1000
 pythagSet = function() {
   var a = 1,
-    b = 25,
+    b = 100,
     raiseB = true,
     answer = 0,
     c = 0;
@@ -305,3 +305,31 @@ pythagSet = function() {
     return a * b * c;
 } // returns 31875000 (200, 375, 425)
 // I am the 256830th to solve this
+
+// Euler #10 (borrowing a little from #7)
+// Sum of all primes less than 2,000,000
+primeSum = function() {
+  var primes = [2, 3],
+    counter = 3,
+    sum = 5,
+    isComposite,
+    i;
+  
+  while (counter < 2000000) { // 2000001 is divisible by 3; will fall out fast
+    counter = counter + 2;
+    isComposite = false;
+    for (i=1; i < primes.length; i++) {
+      if (counter % primes[i] === 0) {
+        isComposite = true;
+        break;
+      }
+    }
+    if (isComposite === false) {
+      primes.push(counter);
+      sum = sum + counter;
+      // console.log(counter); // crazy fun watching this scroll
+    }
+  }
+  return sum;
+} // returns 142913828922
+// I am the 235776th to solve this
