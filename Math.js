@@ -274,3 +274,34 @@ highestProd = function(array) { // takes array of stringified numbers
   return bestProd;
 } // returns 23514624000 (from 5576689664895)
 // I am the 254350th to solve this
+
+// Euler #9
+// Product of Pythagorean positive integer set where a+b+c=1000
+pythagSet = function() {
+  var a = 1,
+    b = 25,
+    raiseB = true,
+    answer = 0,
+    c = 0;
+    
+    while (answer !== 1000) {
+      if (raiseB === true) {
+        ++b;
+      } else {
+        ++a;
+        b = b - 3;
+        raiseB = true;
+      }
+      
+      c = Math.sqrt((a * a) + (b * b));
+      answer = a + b + c;
+      if (answer > 1000) {
+        raiseB = false;
+      }
+      // console.log(b);
+    }
+    // console.log('a: ' + a);
+    // console.log('c: ' + c);
+    return a * b * c;
+} // returns 31875000 (200, 375, 425)
+// I am the 256830th to solve this
