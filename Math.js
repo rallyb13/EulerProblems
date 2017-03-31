@@ -275,6 +275,7 @@ highestProd = function(array) { // takes array of stringified numbers
 } // returns 23514624000 (from 5576689664895)
 // I am the 254350th to solve this
 
+
 // Euler #9
 // Product of Pythagorean positive integer set where a+b+c=1000
 pythagSet = function() {
@@ -306,6 +307,7 @@ pythagSet = function() {
 } // returns 31875000 (200, 375, 425)
 // I am the 256830th to solve this
 
+
 // Euler #10 (borrowing a little from #7)
 // Sum of all primes less than 2,000,000
 primeSum = function() {
@@ -333,3 +335,65 @@ primeSum = function() {
   return sum;
 } // returns 142913828922
 // I am the 235776th to solve this
+
+
+// Euler #11 (in 2 functions)
+// Largest product created by 4-consecutive numbers in a 20x20 matrix
+handleMatrix= function(raw) { // raw is an array of 20 strings, each string is 20 space-separated numbers
+  var matrix = [],
+    intRow = [],
+    rawRow;
+  
+  for (var i=0; i < raw.length; i++) {
+    rawRow = raw[i].split(" "); // separate 20 stringified numbers
+    for (var j=0; j < rawRow.length; j++) {
+      intRow.push(Number(rawRow[j]));
+    }
+    matrix.push(intRow);
+    intRow = [];
+  }
+  return matrix;
+} // this only returns an array of 20 arrays with 20 numbers inside
+
+findProdInMatrix = function(matrix) {
+  var product = 1,
+    bestProd = 0;
+  
+  // iterate through horizontal combos row by row
+  for (var i=0; i<20; i++) {
+    for (var j=0; j<17; j++) {
+      product = matrix[i][j] * matrix[i][j+1] * matrix[i][j+2] * matrix[i][j+3];
+      // console.log(product);
+      bestProd = product >= bestProd ? product : bestProd;
+    }
+  }
+  // console.log('PHASE2');
+  // iterate through vertical combos, clearing top numbers row by row 
+  for (var a=0; a<17; a++) {
+    for (var b=0; b<20; b++) {
+      product = matrix[a][b] * matrix[a+1][b] * matrix[a+2][b] * matrix[a+3][b];
+      // console.log(product);
+      bestProd = product >= bestProd ? product : bestProd;
+    }
+  }
+  // console.log('PHASE3');
+  // iterate through rising diagonals, by bottom-lefts
+  for (var q=3; q<20; q++) {
+    for (var r=0; r<17; r++) {
+      product = matrix[q][r] * matrix[q-1][r+1] * matrix[q-2][r+2] * matrix[q-3][r+3];
+      console.log(product);
+      bestProd = product >= bestProd ? product : bestProd;
+    }
+  }
+  // console.log('PHASE4');
+  // iterate through falling diagonals, by top-lefts
+  for (var x=0; x<17; x++) {
+    for (var y=0; y<17; y++) {
+      product = matrix[x][y] * matrix[x+1][y+1] * matrix[x+2][y+2] * matrix[x+3][y+3];
+      // console.log(product);
+      bestProd = product >= bestProd ? product : bestProd;
+    }
+  }
+  return bestProd;
+} // returns 70600674 (upward-diagonal from matrix[15][3] 87, 97, 94, 89)
+// I am the 172196th to solve this
