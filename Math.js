@@ -397,3 +397,31 @@ findProdInMatrix = function(matrix) {
   return bestProd;
 } // returns 70600674 (upward-diagonal from matrix[15][3] 87, 97, 94, 89)
 // I am the 172196th to solve this
+
+
+// Euler #12
+// First triangular number with *over* 500 divisors
+findDivisibleTri = function() {
+  var counter = 1,
+    currentTri = 0,
+    factorCount = 0,
+    highLeftFact;
+  
+  while(factorCount < 501) {
+    factorCount = 0;
+    currentTri += counter;
+    console.log(currentTri);
+    highLeftFact = Math.floor(Math.sqrt(currentTri));
+    for (var i=1; i<highLeftFact; i++) {
+      if (currentTri % i === 0) {
+        factorCount += 2;
+      }
+    }
+    if (highLeftFact * highLeftFact === currentTri) {
+      ++factorCount; // handle square (only one factor) separately
+    }
+    ++counter;
+  }
+  return currentTri;
+} // returns 76576500
+// I am the 160029th to solve this
