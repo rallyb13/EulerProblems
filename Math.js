@@ -569,3 +569,27 @@ collatz = function() {
   return bestSet[0];
 } // returns 837799 (525 term sequence)
 // I am the 164843rd to solve this
+
+
+// Euler #15 (or: thinking in binary)
+// How many corner-to-corner paths in a 20x20 grid (only moving down & right)
+calcPaths = function() {
+  var digits = 3,
+    lastCombos = [1, 2],
+    digitCombos = [1];
+  
+  while (digits < 41) {
+    for (var i=1; i<lastCombos.length; i++) {
+      digitCombos.push(lastCombos[i-1] + lastCombos[i]);
+    }
+    if (digits % 2 !== 0) {
+      digitCombos.push(digitCombos[digitCombos.length - 1]) // pust last term for odd sets
+    }
+    console.log(digitCombos);
+    lastCombos = digitCombos;
+    digitCombos = [1];
+    ++digits;
+  }
+  return lastCombos[lastCombos.length - 1]; // should be lastCombos[20]
+} // returns 137846528820
+// I am the 136610th to solve this
