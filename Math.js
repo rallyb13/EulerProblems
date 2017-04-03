@@ -539,3 +539,33 @@ sumFromArray = function() { // can't figure out how to pass matrix in!
 } // returns 5537376230 (first ten chars)
 // I am the 165945th to solve this
 // had to manually copy/paste matrix, add commas (lame)
+
+
+// Euler #14
+// Longest Collatz sequence starting with # less than 1mil
+collatz = function() {
+  var bestSet = [],
+    currentSet = [],
+    firstNum = 1,
+    currentNum = 0;
+  
+  while (firstNum < 999999) {
+    firstNum += 2; // evens can only drop to previous odd, so odd will have longer set
+    currentNum = firstNum;
+    currentSet.push(currentNum);
+    while (currentNum !== 1) {
+      if (currentNum % 2 === 0) {
+        currentNum = currentNum / 2;
+      } else {
+        currentNum = 3 * currentNum + 1;
+      }
+      currentSet.push(currentNum);
+    }
+    bestSet = (bestSet.length >= currentSet.length) ? bestSet : currentSet;
+    // console.log(bestSet[0]);
+    // console.log(bestSet.length);
+    currentSet = [];
+  }
+  return bestSet[0];
+} // returns 837799 (525 term sequence)
+// I am the 164843rd to solve this
