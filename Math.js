@@ -662,3 +662,42 @@ powerSum = function(num, exp) {
   return sum;
 } //returns 1366
 // I am the 167790th to solve this
+
+letterCount = function() {
+  var fragments = [
+    'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine',
+    'ten', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety',
+    'hundred', 'and', 'thousand', 'eleven', 'twelve', 'teen', 'thir', 'fif', 'eigh'
+  ],
+    total = 0;
+  
+  total += fragments[0].length * (1 + 100 + 90); // 1: thousand hundreds ones
+  total += fragments[1].length * (100 + 90); // 2: hundreds ones
+  total += fragments[2].length * (100 + 90); // 3
+  total += fragments[3].length * (100 + 100); // 4: hundreds ones (including fourteen)
+  total += fragments[4].length * (100 + 90); // 5
+  total += fragments[5].length * (100 + 100); // 6
+  total += fragments[6].length * (100 + 100); // 7
+  total += fragments[7].length * (100 + 90); // 8
+  total += fragments[8].length * (100 + 100); // 9
+  total += fragments[9].length * (10); // 10: just the exact tens
+  total += fragments[10].length * (100); // 20: 20 through 29 in each hundred
+  total += fragments[11].length * (100); // 30
+  total += fragments[12].length * (100); // 40
+  total += fragments[13].length * (100); // 50
+  total += fragments[14].length * (100); // 60
+  total += fragments[15].length * (100); // 70
+  total += fragments[16].length * (100); // 80
+  total += fragments[17].length * (100); // 90
+  total += fragments[18].length * (900); // hundred: 100 through 999
+  total += fragments[19].length * (891); // and: 99 x 9 
+  total += fragments[20].length; // 1000: just itself
+  total += fragments[21].length * (10); // 11: just exacts
+  total += fragments[22].length * (10); // 12: just exacts
+  total += fragments[23].length * (70); // teen: 13 through 19 in each hundred
+  total += fragments[24].length * (10); // thir: prefix to thirteens
+  total += fragments[25].length * (10); // fif
+  total += fragments[26].length * (10); // eigh
+  return total;
+} // returns 21124
+// I am the 111868th to solve this
