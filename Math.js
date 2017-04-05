@@ -593,3 +593,72 @@ calcPaths = function() {
   return lastCombos[lastCombos.length - 1]; // should be lastCombos[20]
 } // returns 137846528820
 // I am the 136610th to solve this
+
+
+// Euler #16
+// sum of the digits in 2 to the 1000th power
+powerSum = function(num, exp) {
+  var product = 1,
+    digits = [],
+    sum = 0;
+  
+  for (var i=1; i<=exp; i++) {
+    product = product * num;
+  } // console.log(product) = 1.0715086071862673e+301 && at 2^55 product gets rounded
+  // I will need to break prod (String) && carry manually
+  
+  digits = String(product).split("");
+  for (var j=0; j < digits.length; j++) {
+    sum += Number(digits[j]);
+  }
+  
+  return sum;
+}
+
+// 2nd try (mostly about dealing with numerical digit-limit)
+// also, num could now only be a single-digit number
+powerSum = function(num, exp) {
+  var pieces = ["1"],
+    nextPieces = [],
+    toCarry = 0,
+    newItem = 0,
+    digits = [],
+    sum = 0;
+  
+  for (var i=1; i<=exp; i++) {
+    for (var j=0; j<pieces.length; j++) {
+      nextPieces.push(String(pieces[j] * num));
+    }
+    pieces = [];
+    
+    for (var k=0; k<nextPieces.length; k++) {
+      if (nextPieces[k].length > 13) {
+        toCarry = Number(nextPieces[k].slice(0,1));
+        pieces.push(nextPieces[k].slice(1));
+        if (k !== 0) {
+          pieces[k-1] = String(Number(pieces[k-1]) + toCarry);
+        } else {
+          newItem = toCarry;
+        }
+      } else {
+        pieces.push(nextPieces[k]);
+      }
+    }
+    if (newItem !== 0) {
+      pieces.unshift(String(newItem));
+      newItem = 0;
+    }
+    nextPieces = [];
+    // console.log(pieces);
+  }
+  
+  for (var x=0; x<pieces.length; x++) {
+    digits = pieces[x].split("");
+    for (var y=0; y<digits.length; y++) {
+      sum += Number(digits[y]);
+    }
+  }
+  
+  return sum;
+} //returns 1366
+// I am the 167790th to solve this
