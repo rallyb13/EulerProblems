@@ -663,6 +663,9 @@ powerSum = function(num, exp) {
 } //returns 1366
 // I am the 167790th to solve this
 
+
+// Euler #17
+// Count of the letters (excluding spaces/hyphens) in spelled-out numbers 1 through 1000 (using and)
 letterCount = function() {
   var fragments = [
     'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine',
@@ -701,3 +704,41 @@ letterCount = function() {
   return total;
 } // returns 21124
 // I am the 111868th to solve this
+
+
+// Euler #18
+// Max-sum path in moving through trianglular matrix of 2-digit numbers
+// uses handleMatrix fn from #11 to create array of arrays w/ numbers
+navTrianglePaths = function(matrix) {
+  index = 0,
+  sumDetails = [matrix[0][index], index], // current sum and index within array
+  sumRecs = [sumDetails],
+  nextLevelSums = [],
+  cutoff = 0;
+  
+  for (var i=1; i<matrix.length; i++) {
+    for (var j=0; j<sumRecs.length; j++) {
+      index = sumRecs[j][1];
+      sumDetails = [ sumRecs[j][0] + matrix[i][index], index ];
+      nextLevelSums.push(sumDetails);
+      index += 1;
+      sumDetails = [ sumRecs[j][0] + matrix[i][index], index ];
+      nextLevelSums.push(sumDetails);
+    }
+    sumRecs = nextLevelSums;
+    nextLevelSums = [];
+
+    if (i > 5) {
+      cutoff = i === 14 ? 1000 : 50 * (i+1); // at a certain point, can't recover from lower total
+      for (var k=sumRecs.length - 1; k>=0; k--) {
+        if (sumRecs[k][0] < cutoff) {
+          sumRecs.splice(k,1);
+        }
+      }
+    }
+  }
+  return sumRecs;
+} // actually returns array of 142 sumDetails, 1074 being the highest
+// 75 64 82 87 82 75 73 28 83 32 91 78 58 73 93 (using position of last, able to trace it back)
+// very inelegant solution! maybe move up rather than down so eliminate more possiblilities early?
+// I am the 107956th to solve this
