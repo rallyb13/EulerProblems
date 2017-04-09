@@ -740,5 +740,36 @@ navTrianglePaths = function(matrix) {
   return sumRecs;
 } // actually returns array of 142 sumDetails, 1074 being the highest
 // 75 64 82 87 82 75 73 28 83 32 91 78 58 73 93 (using position of last, able to trace it back)
-// very inelegant solution! maybe move up rather than down so eliminate more possiblilities early?
+// very inelegant solution! maybe move up rather than down so eliminate more possiblilities early? [yes!]
 // I am the 107956th to solve this
+
+
+// Euler #19
+// if 1/1/1900 = Monday, how many Sundays were on first of the months in 20th century (1901-2000)
+countSundays = function() {
+  var counter = 1901, // Tuesday
+    shift = 0,
+    extras = [3, 0, 3, 2, 3, 2, 3, 3, 2, 3, 2, 3],
+    // week = ["Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday", "Monday"],
+    sundays = 0;
+
+  while (counter < 2001) {
+    for (var i=0; i<extras.length; i++) {
+      // console.log(week[shift % 7]);
+      if (shift % 7 === 5) {
+        ++sundays;
+      }
+      shift += extras[i];
+      if (i===1) {
+        if (counter % 100 === 0 && counter % 400 !== 0) {
+          shift += 0;
+        } else if (counter % 4 === 0) {
+          ++shift;
+        }
+      }
+    }
+    ++counter;
+  }
+  return sundays;
+} // returns 171
+// I am the 100191st to solve this
