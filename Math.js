@@ -773,3 +773,57 @@ countSundays = function() {
   return sundays;
 } // returns 171
 // I am the 100191st to solve this
+
+
+// Euler #20 (adapting #16)
+// sum of the digits in !100
+factorialSum = function(num) {
+  var pieces = ["1"],
+    nextPieces = [],
+    digitCount = 0,
+    safeLength = 12
+    toCarry = 0,
+    newItem = 0,
+    digits = [],
+    sum = 0;
+  
+  for (var i=num; i>1; i--) {
+    for (var j=0; j<pieces.length; j++) {
+      nextPieces.push(String(pieces[j] * i));
+    }
+    pieces = [];
+    
+    for (var k=0; k<nextPieces.length; k++) {
+      digitCount = nextPieces[k].length;
+      if (digitCount > safeLength) {
+        toCarry = Number(nextPieces[k].slice(0, digitCount - safeLength));
+        pieces.push(nextPieces[k].slice(digitCount - safeLength));
+        if (k !== 0) {
+          pieces[k-1] = String(Number(pieces[k-1]) + toCarry);
+        } else {
+          newItem = toCarry;
+        }
+      } else {
+        pieces.push(nextPieces[k]);
+      }
+    }
+    if (newItem !== 0) {
+      pieces.unshift(String(newItem));
+      newItem = 0;
+    }
+    nextPieces = [];
+    console.log(pieces);
+  }
+  
+  for (var x=0; x<pieces.length; x++) {
+    digits = pieces[x].split("");
+    for (var y=0; y<digits.length; y++) {
+      sum += Number(digits[y]);
+    }
+  }
+  
+  return sum;
+} // returns 648
+// I am the 148473rd to solve this
+
+
