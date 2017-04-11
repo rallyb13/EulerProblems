@@ -827,3 +827,49 @@ factorialSum = function(num) {
 // I am the 148473rd to solve this
 
 
+// Euler #21
+// sum of all amicable numbers under 10000 (amicable pairs are the sum of each other's divisors)
+sumAmicable = function(num) {
+  var keyNum = 4,
+    lastCheck = 0,
+    singleSum = 0
+    dSums = {},
+    divisors = [],
+    possPair = 0,
+    finalSum = 0;
+  
+  while (keyNum < num) {
+    lastCheck = Math.floor(Math.sqrt(keyNum));
+    divisors = [1];
+    
+    for (var i=2; i<=lastCheck; i++) {
+      if (keyNum % i === 0) {
+        divisors.push(i, keyNum/i);
+      }
+    }
+    if (lastCheck * lastCheck === keyNum) {
+      divisors.pop(); // handle squares
+    }
+    
+    // record all composites
+    if (divisors.length > 1) {
+      for (var j=0; j<divisors.length; j++) {
+        singleSum += divisors[j];
+      }
+      dSums[keyNum] = singleSum;
+    }
+    
+    ++keyNum;
+    singleSum = 0;
+  }
+  
+  for (var item in dSums) {
+    possPair = dSums[item];
+    if (item == dSums[possPair] && item != possPair) { // == b/c keys are strings
+      console.log(item);
+      finalSum += dSums[item];
+    }
+  }
+  return finalSum;
+} // returns 31626 (220 & 284, 1184 & 1210, 2620 & 2924, 5020 & 5564, 6232 & 6368)
+// I am the 107860th to solve this
