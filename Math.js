@@ -873,3 +873,70 @@ sumAmicable = function(num) {
   return finalSum;
 } // returns 31626 (220 & 284, 1184 & 1210, 2620 & 2924, 5020 & 5564, 6232 & 6368)
 // I am the 107860th to solve this
+
+
+// Euler #22
+// Long name list, alpha-numeric sum of name times alphabetized position -- sum of all
+sumNames = function() {
+  names = ["MARY","PATRICIA","LINDA","BARBARA","ELIZABETH","JENNIFER","MARIA","SUSAN","MARGARET","DOROTHY","LISA","NANCY","KAREN","BETTY","HELEN","SANDRA","DONNA","CAROL",
+      "RUTH","SHARON","MICHELLE","LAURA","SARAH","KIMBERLY","DEBORAH","JESSICA","SHIRLEY","CYNTHIA","ANGELA","MELISSA","BRENDA","AMY","ANNA","REBECCA","VIRGINIA","KATHLEEN"
+    ], // no reason to commit 200 lines of names; just trust me, there were more
+  vals = {
+    A:1, B:2, C:3, D:4, E:5, F:6, G:7, H:8, I:9, J:10, K:11, L:12, M:13,
+    N:14, O:15, P:16, Q:17, R:18, S:19, T:20, U:21, V:22, W:23, X:24, Y:25, Z:26
+  },
+  buckets = {},
+  checkName = "",
+  currentArray = [],
+  index = 1,
+  sortedNames = [],
+  firstLetter = "",
+  letters = [],
+  nameSum = 0,
+  product = 1,
+  fullSum = 0;
+  
+  // place in buckets by first letter
+  for (var i=0; i<names.length; i++) {
+    firstLetter = names[i].slice(0,1);
+    if (typeof buckets[firstLetter] === "undefined") {
+      buckets[firstLetter] = [];
+    }
+    buckets[firstLetter].push(names[i]);
+  }
+  
+  // insertion sort each bucket
+  for (var lett in buckets) {
+    currentArray = buckets[lett];
+    for (var x=1; x<currentArray.length; x++) {
+      checkName = currentArray[x];
+      index = x;
+      while(index>0 && currentArray[index-1]>checkName) {
+        currentArray[index] = currentArray[index-1];
+        index--;
+      }
+      currentArray[index] = checkName;
+    }
+  }
+  
+  // concat buckets into sortedNames
+  for (var key in vals) {
+    if (typeof buckets[key] !== 'undefined') { // probably won't need this for long
+      sortedNames = sortedNames.concat(buckets[key]);
+    }
+  }
+  // console.log(sortedNames);
+  
+  // now calculate name value * positions & add together
+  for (var j=0; j<sortedNames.length; j++) {
+    letters = sortedNames[j].split("");
+    nameSum = 0;
+    for (var k=0; k<letters.length; k++) {
+      nameSum += vals[letters[k]];
+    }
+    product = nameSum * (j+1);
+    fullSum += product;
+  }
+  return fullSum;
+} // returns 871198282
+// I am the 99866th to solve this
