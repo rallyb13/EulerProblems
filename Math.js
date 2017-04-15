@@ -991,3 +991,31 @@ sumOfNonAbundantSums = function() {
 } // returns 4179871
 // I am the 76575th to solve this
 
+
+// Euler #24
+// Find the Millionth permutation of the numbers 0-9 (assuming numerical order)
+millionthPermutation = function() {
+  var index = 0,
+    candidates = [0,1,2,3,4,5,6,7,8,9],
+    product = 1,
+    permutation = "",
+    goal = 1000000;
+  
+  while (permutation.length < 10) {
+    index = 0;
+    product = 1;
+    for (var i=1; i < candidates.length; i++){
+      product = product * i;
+    }
+    
+    while (product < goal) {
+      goal -= product;
+      index++;
+    }
+    
+    permutation += String(candidates[index]);
+    candidates.splice(index, 1);
+  }
+  return permutation;
+} // returns 2783915460
+// I am the 85607th to solve this
