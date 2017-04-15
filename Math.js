@@ -940,3 +940,54 @@ sumNames = function() {
   return fullSum;
 } // returns 871198282
 // I am the 99866th to solve this
+
+
+// Euler #23
+// The sum of all numbers that cannot be created by adding two abundant numbers
+// (abundant numbers are smaller than the sum of their divisors added together)
+sumOfNonAbundantSums = function() {
+  var abundants = [],
+    dSum = 1,
+    lastCheck,
+    middleNum = 0
+    isSumAbundant = false,
+    nonSum = 276; // 45 + 145 + 86 = sum of 1 to 23
+  
+  // collect abundants 
+  for (var i=12; i<28124; i++) {
+    dSum = 1;
+    lastCheck = Math.floor(Math.sqrt(i));
+    for (var j=2; j<=lastCheck; j++) {
+      if (i % j === 0) {
+        dSum += j;
+        dSum += (i / j);
+      }
+    }
+    if (lastCheck * lastCheck === i) {
+      dSum -= lastCheck;
+    }
+    if (dSum > i) {
+      abundants.push(i);
+    }
+  }
+  // console.log(abundants);
+  
+  // add numbers that two abundants cannot make
+  for (var x=25; x<28124; x++) {
+    middleNum = Math.floor(x/2);
+    isSumAbundant = false;
+    for (var y=0; abundants[y] <= middleNum; y++) {
+      if (abundants.indexOf(x - abundants[y]) !== -1) {
+        isSumAbundant = true;
+        break;
+      }
+    }
+    if (isSumAbundant === false) {
+      nonSum += x;
+    }
+  }
+  
+  return nonSum;
+} // returns 4179871
+// I am the 76575th to solve this
+
