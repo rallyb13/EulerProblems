@@ -1019,3 +1019,42 @@ millionthPermutation = function() {
   return permutation;
 } // returns 2783915460
 // I am the 85607th to solve this
+
+
+// Euler #25
+// find index of first 1000-digit Fibonacci number (adapt #16/#20 bit)
+bigFib = function() {
+  var count = 2,
+    a = [1],
+    b = [1],
+    c = [],
+    toCarry = 0,
+    piece = 0;
+  
+  while (typeof c[83] === 'undefined' || c[83] < 999) {
+    c = [];
+    for (var j=0; j<a.length; j++) {
+      piece = a[j] + b[j] + toCarry;
+      if (String(piece).length > 12) {
+        toCarry = Number(String(piece).slice(0,1));
+        piece = Number(String(piece).slice(1));
+      } else {
+        toCarry = 0
+      }
+      c.push(piece);
+    }
+    if (a.length !== b.length) {
+      piece = toCarry + b[b.length - 1];
+      c.push(piece);
+    } else if (toCarry !== 0) {
+      c.push(toCarry);
+    }
+    toCarry = 0;
+    console.log(c);
+
+    ++count;
+    a = b;
+    b = c;
+  }
+  return count;
+} // returns 4782
