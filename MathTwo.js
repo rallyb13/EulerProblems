@@ -119,3 +119,29 @@ quadPrime = function() {
 // I am the 65059th to solve this
 // Note: surprised how fast the solution popped for that complexity!
 
+
+// Euler #28
+// sum of numbers in diagonals of 1001x1001 grid (numbers entered in clockwise spiral)
+sumDiag = function() {
+  var total = 1,
+    sideLength = 2, // from start-point to corner, won't include other corner
+    corner = 1,
+    count = 0;
+  
+  while (sideLength < 1001) {
+    count = 0;
+    while (count < 4) {
+      corner += sideLength;
+      total += corner;
+      ++count;
+    }
+    // console.log('side: ' + sideLength);
+    // console.log('total: ' + total);
+
+    sideLength += 2;
+  }
+  return total;
+} // returns 669171001
+// I am the 82508th to solve this
+
+
