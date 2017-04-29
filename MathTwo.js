@@ -145,3 +145,50 @@ sumDiag = function() {
 // I am the 82508th to solve this
 
 
+// Euler #29 (first attempt)
+// count of distinct numbers for a^b for when a & b = 2 through 100 (inclusive)
+distinctPowers = function() {
+  var results = [],
+    a = 2,
+    b = 2,
+    result = 1;
+    
+  while (a <= 100) {
+    result = a;
+    b = 2;
+    while (b <= 100) {
+      result *= a;
+      ++b;
+      if (results.indexOf(result) === -1) {
+        results.push(result);
+      }
+    }
+    ++a;
+  }
+  return results.length;
+} // returns 9379, but due to floating point limits, probably over-counting
+
+// Euler #29 (more clever attempt)
+powerCombos = function() {
+  var total = 81 * 99, // of 2-100, only 18 numbers have collisions (commented below)
+    cases = 4, // basic square pairs: 5&25, 6&36, 7&49, 10&100
+    counter = 1,
+    exponents = [],
+    trueExpo = 1;
+    
+  while (counter <= 6) {
+    for (var i=2; i<101; i++) {
+      trueExpo = counter * i;
+      if (exponents.indexOf(trueExpo) === -1) {
+        exponents.push(trueExpo);
+      }
+    }
+    if (counter % 2 === 0) {
+      total += exponents.length * cases;
+      cases = 1; // 3/9/27/81 and then 2/4/8/16/32/64
+    }
+    ++counter;
+  }
+  return total;
+} // returns 9183
+// I am the 78095th to solve this
