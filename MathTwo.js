@@ -279,3 +279,58 @@ fifthPowSum = function() {
   return finSum;
 } //returns 443839 from 4150, 4151, 54748, 92727, 93084, 194979
 // I am the 83726th to solve this
+
+//Euler #31
+//How many different coin combinations make 2 pounds
+penceCounter = function() {
+  var values = [200, 100, 50, 20, 10, 5, 2, 1],
+    coins = [0, 0, 0, 0, 0, 0, 0, 0]
+    index = 0,
+    counter = 0,
+    purse = 0;
+
+  while (coins[0] < 200) {
+    // filling moves biggest to smallest
+    while (purse < 200) {
+      if (values[index] > 200 - purse) {
+        //when the biggest coin is too big, move on
+        index++;
+      } else {
+        // add coin to purse && record coinage
+        purse += values[index];
+        coins[index]++;
+      }
+    }
+    
+    console.log(coins);
+    // only falls out when purse is full from new combo
+    counter++;
+    
+    // removal moves smallest coin to biggest (so always remove 1p coins)
+    purse -= coins[coins.length-1];
+    coins[coins.length-1] = 0;
+    
+    for (var i=coins.length-2; i>-1; i--) {
+      if (coins[i] !== 0) {
+        // remove lowest-value non-1p coin
+        coins[i] = coins[i] - 1;
+
+        // update purse && index, then leave
+        purse -= values[i];
+        index = i;
+        break;
+      }
+    }
+    
+    // if just removed last coin of highest value, all its combos are done: pull it
+    if (coins[index] === 0 && index === 0) {
+      values.shift();
+      coins.shift();
+    } else {
+      // only pull from lower value coins
+      index++;
+    }
+  }
+  return counter;
+} //returns 73682
+// I am the 63801st to solve this
