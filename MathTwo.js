@@ -192,3 +192,90 @@ powerCombos = function() {
   return total;
 } // returns 9183
 // I am the 78095th to solve this
+
+
+// Euler #30 1st attempt: poorly bounded, over-thinking (and over-skipping)
+// Sum of ALL numbers that are the sum of each digit raised to the fifth power
+fifthPowSum = function() {
+  var powers = [ 0, 1, 32, 243, 1024, 3125, 7776, 16807, 32768, 59049 ],
+    testNum = 10,
+    sum = 0,
+    solutions = [],
+    digits = [],
+    finSum = 0;
+
+  while (String(testNum).length < 7) {
+    sum = 0;
+    for (var i=0; i<String(testNum).length; i++) {
+      sum += powers[Number(String(testNum).charAt(i))];
+    }
+    
+    if (sum === testNum) {
+      // if match found, shove into a array, but also keep things moving
+      solutions.push(testNum);
+      // console.log(testNum);
+      testNum++;
+    } else if (sum < testNum) {
+      // if the sum is smaller, check next number
+      testNum++;
+    } else {
+      // if sum is larger, need a way to jump
+      digits = String(testNum).split("").reverse();
+      for (var j=0; j<digits.length; j++) {
+        if (j === 0 && digits[j] === '0') {
+ //TODO: fix jumping from 20 to 100 (should go to 21 or 30 for j=0 case)
+          digits[j] = '1';
+          break;
+        } else if (digits[j] !== '0') {
+          digits[j] = '0'
+          if (typeof digits[j+1] === 'undefined') {
+            digits.push('1');
+            break;
+          } else if (digits[j+1] !== '9') {
+            // if 9, needs to roll over so keeps going
+            // otherwise, need to +1 & break out
+            digits[j+1] = String(Number(digits[j+1]) + 1);
+            break;
+          }
+        }
+      }
+      testNum = digits.reverse().join("");
+    }
+    console.log(testNum);
+  }
+  for (var k=0; k<solutions.length; k++) {
+    finSum += solutions[k];
+  }
+  return finSum;
+} // only got 54748, 92727, 93084, 194979
+
+//2nd attempt
+fifthPowSum = function() {
+  var powers = [ 0, 1, 32, 243, 1024, 3125, 7776, 16807, 32768, 59049 ],
+    testNum = 10,
+    sum = 0,
+    solutions = [],
+    finSum = 0;
+
+  while (testNum < 300000) { // 9^5 * 6 = 354294 (but first two couldn't be 9s!)
+    sum = 0;
+    for (var i=0; i<String(testNum).length; i++) {
+      sum += powers[Number(String(testNum).charAt(i))];
+    }
+    
+    if (sum === testNum) {
+      // if match found, shove into a array, but also keep things moving
+      solutions.push(testNum);
+      console.log(testNum);
+    }
+
+    // check next number (brute force, but for less territory)
+    testNum++;
+  }
+
+  for (var k=0; k<solutions.length; k++) {
+    finSum += solutions[k];
+  }
+  return finSum;
+} //returns 443839 from 4150, 4151, 54748, 92727, 93084, 194979
+// I am the 83726th to solve this
