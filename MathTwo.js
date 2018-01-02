@@ -334,3 +334,98 @@ penceCounter = function() {
   return counter;
 } //returns 73682
 // I am the 63801st to solve this
+
+
+//Euler #32
+//Sum of all products where multiplication problem w/ product are pandigital (using 1-9, once each)
+panSum = function() {
+  var allNums = ["1", "2", "3", "4", "5", "6", "7", "8", "9"],
+    a = 2,
+    notAs = [],
+    bLen = 4,
+    b = "",
+    digits = [],
+    index = 0,
+    product = 0,
+    proDigits = [],
+    isPandigital = true,
+    validMultiplier = true,
+    allProds = [];
+  
+  // 9-character equations: 1 x 4 = 4 && 2 x 3 = 4; therefore, a can never hit 100 (or 99)
+  while(a<99) {
+    notAs = [].concat(allNums);
+    notAs.splice(notAs.indexOf(a.toString().charAt(0)), 1);
+    if (a > 9) {
+      notAs.splice(notAs.indexOf(a.toString().charAt(1)), 1);
+    }
+
+    // once product jumps to a 5-digit number, it's time to increment a
+    while(product < 10000) {
+      if (b === "") {
+        // just get a starting (lowest possible) number for b
+        digits = [].concat(notAs);
+        while(b.length < bLen) {
+          b += digits.shift();
+        }
+      } else {
+        validMultiplier = false;
+        while (validMultiplier === false) {
+          b = String(Number(b) + 1);
+          digits = [].concat(notAs);
+          for (var j=0; j<b.length; j++) {
+            // by checking each character that makes up b against digits,
+            // can confirm it's not in a, not 0, not a duplicate (due to instant removal)
+            index = digits.indexOf(b.charAt(j));
+            if (index === -1) {
+              validMultiplier = false;
+              break;
+            } else {
+              validMultiplier = true;
+              digits.splice(index, 1);
+            }
+          }
+        }
+      }
+      
+      product = a * Number(b);
+      isPandigital = true;
+      proDigits = product.toString().split("");
+      for(var k=0; k<proDigits.length; k++) {
+        index = digits.indexOf(proDigits[k]);
+        if(index === -1) {
+          isPandigital = false;
+          break;          
+        } else {
+          digits.splice(index, 1);
+        }
+      }
+      
+      if (isPandigital && allProds.indexOf(product) === -1) {
+        allProds.push(product);
+        console.log('prod: ', product);
+      }
+    }
+    
+    // increase a and reset b && product
+    b = "";
+    product = 0;
+    if (a !== 9) {
+      a += 1;
+      if (a % 10 === 0 || a % 11 === 0) {
+        a += 1;
+      }
+    } else {
+      a = 12;
+      bLen = 3;
+    }
+  }
+
+  return allProds.reduce( (acc, val) => {
+    return acc += val;
+  }, 0);
+} //returns 73682
+// I am the 56491st to solve this (6952, 7852, 5796, 5346, 4396, 7254, 7632)
+
+
+

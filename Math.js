@@ -947,7 +947,7 @@ sumNames = function() {
 // (abundant numbers are smaller than the sum of their divisors added together)
 sumOfNonAbundantSums = function() {
   var abundants = [],
-    dSum = 1,
+    dSum = 1, // sum of divisors for a number
     lastCheck,
     middleNum = 0
     isSumAbundant = false,
