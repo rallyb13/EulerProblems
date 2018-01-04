@@ -428,4 +428,46 @@ panSum = function() {
 // I am the 56491st to solve this (6952, 7852, 5796, 5346, 4396, 7254, 7632)
 
 
-
+//Euler #33
+//Digit-cancelling fractions (49/98, remove common DIGIT is 4/8, which is equal)
+//Doing this with zeros is trivial, so find the 4 cases with double-digit numbers (where numerator is always less than denominator)
+//Find the product of the four, reduce fraction, and find denominator
+funFracts = function() {
+  const sortedCandidates = {
+    1: [], 2: [], 3: [], 4: [], 5: [], 6: [], 7: [], 8: [], 9: []
+  },
+    primes = [2, 3, 5, 7]
+  let candidate = 11,
+    isComposite = false,
+    testByNum = 1
+  
+  // first we drop tens (trivials) and primes (can't be reduced)
+  while (candidate < 100) {
+    if (candidate % 10 === 0) {
+      candidate += 1
+    }
+    
+    isComposite = false
+    for (let i=0; i<primes.length; i++) {
+      if (candidate % primes[i] === 0) {
+        isComposite = true
+        break
+      }
+    }
+    
+    if (isComposite) {
+      sortedCandidates[String(candidate).charAt(0)].push(candidate)
+      if (candidate % 11 !== 0) {
+        sortedCandidates[String(candidate).charAt(1)].push(candidate)
+      }
+    } else {
+      primes.push(candidate)
+    }
+    candidate += 1
+  }
+  console.log(primes)
+  console.log(sortedCandidates)
+  
+  // by array, test each numberator against numbers greater than it
+  // test is num / denom === num-other-digit / denom-other-digit, and save as 2-item array w/in array
+}
