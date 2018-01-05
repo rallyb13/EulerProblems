@@ -436,9 +436,10 @@ funFracts = function() {
   const sortedCandidates = {
     1: [], 2: [], 3: [], 4: [], 5: [], 6: [], 7: [], 8: [], 9: []
   },
-    primes = [2, 3, 5, 7]
+    winningPairs = []
   let candidate = 11,
     isComposite = false,
+    activeArray = [],
     testByNum = 1
   
   // first we drop tens (trivials) and primes (can't be reduced)
@@ -447,27 +448,35 @@ funFracts = function() {
       candidate += 1
     }
     
-    isComposite = false
-    for (let i=0; i<primes.length; i++) {
-      if (candidate % primes[i] === 0) {
-        isComposite = true
-        break
-      }
-    }
-    
-    if (isComposite) {
-      sortedCandidates[String(candidate).charAt(0)].push(candidate)
-      if (candidate % 11 !== 0) {
-        sortedCandidates[String(candidate).charAt(1)].push(candidate)
-      }
-    } else {
-      primes.push(candidate)
+    sortedCandidates[String(candidate).charAt(0)].push(candidate)
+    if (candidate % 11 !== 0) {
+      sortedCandidates[String(candidate).charAt(1)].push(candidate)
     }
     candidate += 1
   }
-  console.log(primes)
-  console.log(sortedCandidates)
   
-  // by array, test each numberator against numbers greater than it
-  // test is num / denom === num-other-digit / denom-other-digit, and save as 2-item array w/in array
-}
+  while (testByNum < 10) {
+    activeArray = sortedCandidates[testByNum]
+    activeArray.forEach((numerator, index, activeArray) => {
+      for (let j=index+1; j<activeArray.length; j++) {
+        let denominator = activeArray[j],
+          reducedNumerator = String(numerator).split(""),
+          reducedDenominator = String(denominator).split(""),
+          stringToTake = String(testByNum)
+        
+        reducedNumerator.splice(reducedNumerator.indexOf(stringToTake), 1).join("")
+        reducedDenominator.splice(reducedDenominator.indexOf(stringToTake), 1).join("")
+
+        if (numerator / denominator === Number(reducedNumerator) / Number(reducedDenominator)) {
+          // console.log(numerator)
+          // console.log(denominator)
+          winningPairs.push([reducedNumerator, reducedDenominator])
+        }
+      }
+    })
+    testByNum += 1
+  }
+  return winningPairs
+} //returns 1/4, 2/5, 1/5, & 4/8 (from 16/64, 26/65, 19/95, & 49/98)
+// I manually get 8/800 ~ 1/100, so denominator is 100
+// I am the 57230th to solve this
