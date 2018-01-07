@@ -480,3 +480,31 @@ funFracts = function() {
 } //returns 1/4, 2/5, 1/5, & 4/8 (from 16/64, 26/65, 19/95, & 49/98)
 // I manually get 8/800 ~ 1/100, so denominator is 100
 // I am the 57230th to solve this
+
+
+//Euler #34
+//Sum of all numbers that are the sum of the factorials of their digits
+funFactos = function() {
+  const factorials = {
+    "0": 1, "1": 1, "2": 2, "3": 6, "4": 24, "5": 120, "6": 720, "7": 5040, "8": 40320, "9": 362880
+  },
+    winners = []
+  let testNum = 10,
+    digits = [],
+    sum = 0
+  
+  // 9! * 7 = 2540160--but at best first digit only a 2, and for any > 2mil, first two can't be 9s
+  while (testNum < 2000000) {
+    digits = String(testNum).split("")
+    sum = digits.reduce((acc, x) => acc += factorials[x], 0)
+    if (sum === testNum) {
+      winners.push(testNum)
+      // console.log(testNum)
+    }
+
+    testNum += 1  //probably a way to skip past obvious losers once sum > testNum
+  }
+  
+  return winners.reduce((acc, y) => acc += y, 0)
+} //returns 40730 (just 145 and 40585)
+// I am the 75375th to solve this (0! = 1...dirty)
