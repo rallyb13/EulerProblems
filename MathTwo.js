@@ -508,3 +508,68 @@ funFactos = function() {
   return winners.reduce((acc, y) => acc += y, 0)
 } //returns 40730 (just 145 and 40585)
 // I am the 75375th to solve this (0! = 1...dirty)
+
+
+// #35
+// Count of circular primes under 1 million
+circPrimes = function() {
+  const byDigitObj = { 2: [], 3: [], 4: [], 5: [], 6: [] },
+    allPrimes = [2, 3, 5, 7]
+  let circPrimes = [2, 3, 5, 7],
+    counter = 11,
+    digitCount = 2
+  
+  // find/sort all primes under 1 million
+  while (counter < 1000000) {
+    let isPrime = true
+    for (let i=0; i<allPrimes.length; i++) {
+      if (counter % allPrimes[i] === 0) {
+        isPrime = false
+        break
+      }
+    }
+    if (isPrime === true) {
+      allPrimes.push(counter)
+      byDigitObj[String(counter).length].push(counter)
+      // after seeing answers, realized any number (>9) including 0, 2, 4, 5, 6, or 8 can't be in circular set
+    }
+    counter++
+  }
+
+  while (digitCount < 7) {
+    let candidates = byDigitObj[digitCount],
+      index = 0
+
+    while (candidates.length > digitCount) {
+      let activeString = String(candidates.shift()),
+        familiars = [activeString],
+        activeDigits = activeString.split("")
+
+      for (let j=1; j<digitCount; j++) {
+        activeDigits.unshift(activeDigits.pop())
+        activeString = activeDigits.join("")
+        index = candidates.indexOf(Number(activeString))
+        
+        // check if next in circular set is actually a prime
+        if (index > -1) {
+          // if it is, collect it and remove from candidate array
+          familiars.push(activeString)
+          candidates.splice(index, 1)
+        
+          // if it's not, make sure it's not already collected (e.g. 11) 
+        } else if (familiars.indexOf(activeString) === -1) {
+          // and then junk failed circular set and move on
+          familiars = []
+          break
+        }
+      }
+      // if (familiars.length > 0) {
+      //   console.log('winning familiars: ', familiars)
+      // }
+      circPrimes = circPrimes.concat(familiars)
+    }
+    digitCount++
+  }
+  return circPrimes.length
+} // returns 55
+// I am the 68169th to solve this
