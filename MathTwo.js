@@ -573,3 +573,46 @@ circPrimes = function() {
   return circPrimes.length
 } // returns 55
 // I am the 68169th to solve this
+
+
+// #36
+// All palindromes under a million that are also palindromes in binary
+palPal = function() {
+  let pals = [1], //because the binary of 1 is 1-digit (1), untestable below, so start with that
+    checks = [],
+    left = 1,
+    right = "",
+    oddPal = 0,
+    evenPal = 0
+  
+  while (left < 1000) {
+    // create an odd-digit palindrome (1 --> 99999)
+    if (left < 10) {
+      oddPal = left
+    } else {
+      right = String(left).slice(0, -1).split("").reverse().join("")
+      oddPal = Number(String(left) + right)
+    }
+    
+    //create even-digit pal (11 --> 999999)
+    right = String(left).split("").reverse().join("")
+    evenPal = Number(String(left) + right)
+    
+    checks = [oddPal, evenPal]
+    checks.forEach((pal) => {
+      let binary = pal.toString(2),
+        digitCount = binary.length,
+        half = digitCount % 2 === 0 ? digitCount/2 : Math.floor(digitCount/2)
+      
+      if (binary.slice(0, half) === binary.slice(-half).split("").reverse().join("")) {
+        // console.log(pal)
+        // console.log(binary)
+        pals.push(pal)
+      }
+    })
+    left++
+  }
+  
+  return pals.reduce((acc, num) => acc += num, 0)
+} // returns 872187
+// I am the 71757th to solve this
