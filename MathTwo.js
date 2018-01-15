@@ -616,3 +616,49 @@ palPal = function() {
   return pals.reduce((acc, num) => acc += num, 0)
 } // returns 872187
 // I am the 71757th to solve this
+
+
+// #37
+// Sum of 11 primes whose consecutive-digit constructions are all prime
+// e.g. 3797: 3, 37, 379, 797, 97, & 7 all prime
+dicedPrimes = function() {
+  const allPrimes = [2, 3, 5, 7],
+    winners = []
+  let counter = 11,
+    primeString = ""
+
+  while (winners.length < 11) {
+    let isPrime = true
+    for (let i=0; i<allPrimes.length; i++) {
+      if (counter % allPrimes[i] === 0) {
+        isPrime = false
+        break
+      }
+    }
+    if (isPrime === true) {
+      allPrimes.push(counter)
+
+      // check for special primes as we move through them
+      primeString = String(counter)
+      let isWinner = true
+      for (let i=1; i<primeString.length; i++) {
+        if (allPrimes.indexOf(Number(primeString.slice(i))) === -1) {
+          isWinner = false
+          break
+        }
+        if (allPrimes.indexOf(Number(primeString.slice(0, i))) === -1) {
+          isWinner = false
+          break
+        }
+      }
+      
+      if (isWinner === true) {
+        winners.push(counter)
+        // console.log('winner: ', counter)
+      }
+    }
+    counter++
+  }
+  return winners.reduce((acc, x) => acc += x, 0)
+} // 748317 (from [ 23, 37, 53, 73, 313, 317, 373, 797, 3137, 3797, 739397 ])
+// I am the 58898th to solve this
