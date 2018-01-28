@@ -662,3 +662,56 @@ dicedPrimes = function() {
   return winners.reduce((acc, x) => acc += x, 0)
 } // 748317 (from [ 23, 37, 53, 73, 313, 317, 373, 797, 3137, 3797, 739397 ])
 // I am the 58898th to solve this
+
+
+// Euler #38
+// Largest Pandigital (includes 1-9, no repeats) Concatenated Serial Products (9 => 9 18 27 36 45)
+panProds = function() {
+  const allNums = ["1", "2", "3", "4", "5", "6", "7", "8", "9"],
+    winners = [9]
+  let counter = 12,
+    isNonRepeat = false,
+    currentDigs = [],
+    toFindDigs = [],
+    multiplier = 1
+    
+  // two 5-digit numbers are too many digits, so last number w/o digits repeated is 9876
+  while (counter < 9877) {
+    if (counter % 5 === 0) {
+      counter++
+    }
+
+    multiplier = 1
+    toFindDigs = [].concat(allNums)
+    // loop for each counter number as long as another product needs to be found  
+    while (toFindDigs.length) {
+      currentDigs = String(counter * multiplier).split("")
+      isNonRepeat = false
+      
+      for (let i=0; i<currentDigs.length; i++) {
+        let index = toFindDigs.indexOf(currentDigs[i])
+        if (index !== -1) {
+          isNonRepeat = true
+          toFindDigs.splice(index, 1)
+        } else {
+          // any number with repeating digit or 0 will get bounced out
+          // reset conditions to break from both inner whiles
+          isNonRepeat = false
+          toFindDigs = []
+          break
+        }
+      }
+      
+      if (toFindDigs.length) {
+        multiplier += 1
+      } else if (isNonRepeat === true){
+        winners.push(counter)
+      }
+    }
+    counter++ //probably could have skipped from 498 to 5123, meh
+  }
+  return winners
+  // since numbers all start with the counter itself
+  // easy to just compare (17 candidates, only 4 start with 9) which is largest
+} // 9327 18654
+// I am the 50371st to solve this
