@@ -715,3 +715,45 @@ panProds = function() {
   // easy to just compare (17 candidates, only 4 start with 9) which is largest
 } // 9327 18654
 // I am the 50371st to solve this
+
+
+// Euler #39
+// What right triangle perimeter (under 1000) has most integer-only sets
+rightTri = function() {
+  const allSets = {} // key = perimeter, value = array of array of side lengths
+  let a = 2,
+    best = []
+  
+  while (a < 333) {
+    let b = a,
+      keepRising = true
+  
+    while(keepRising) {
+      let c = Math.sqrt(a*a + b*b),
+        perimeter = a + b + c
+  
+      if (perimeter > 1000) {
+        keepRising = false
+      } else {
+        if (Number.isInteger(c)) {
+          if(!allSets[perimeter]) {
+            allSets[perimeter] = []
+          }
+          allSets[perimeter].push([a,b,c])
+        }
+        b++
+      }
+    }
+    a++
+  }
+
+  for (let set in allSets) {
+    if (allSets[set].length > best.length) {
+      // console.log(set, allSets[set])
+      best = allSets[set]
+    }
+  }
+  return best
+} // 840 with 8: [ 40, 399, 401 ], [ 56, 390, 394 ], [ 105, 360, 375 ], [ 120, 350, 370 ],
+//[ 140, 336, 364 ], [ 168, 315, 357 ], [ 210, 280, 350 ], [ 240, 252, 348 ]
+// I am the 58588th to solve this
