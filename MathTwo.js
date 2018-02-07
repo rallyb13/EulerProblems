@@ -757,3 +757,31 @@ rightTri = function() {
 } // 840 with 8: [ 40, 399, 401 ], [ 56, 390, 394 ], [ 105, 360, 375 ], [ 120, 350, 370 ],
 //[ 140, 336, 364 ], [ 168, 315, 357 ], [ 210, 280, 350 ], [ 240, 252, 348 ]
 // I am the 58588th to solve this
+
+
+// Euler #40
+// Product of *digits* 1, 10, 100, 1000, 10000, 100000, & 1000000 in basic count
+digitCounter = function() {
+  let numCount = 1,
+    digCount = 1,
+    numLen = 1,
+    target = 10,
+    diff = 0,
+    digits = []
+  const winners = [1]
+  
+  while (winners.length < 7) {
+    while (digCount + numLen < target) {
+      numCount++
+      numLen = String(numCount).length
+      digCount = digCount + numLen    
+    }
+    diff = target - digCount
+    digits = String(numCount + 1).split("")
+    winners.push(digits[diff - 1])
+    target = target * 10
+  }
+  return winners
+} // returns [ 1, '1', '5', '3', '7', '2', '1' ]
+// could use a reduce to get 210, but that's easy at a glance (2 x 5) x (3 x 7)
+// I am the 64721st to solve this
