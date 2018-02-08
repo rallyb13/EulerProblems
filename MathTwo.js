@@ -438,7 +438,6 @@ funFracts = function() {
   },
     winningPairs = []
   let candidate = 11,
-    isComposite = false,
     activeArray = [],
     testByNum = 1
   
@@ -785,3 +784,45 @@ digitCounter = function() {
 } // returns [ 1, '1', '5', '3', '7', '2', '1' ]
 // could use a reduce to get 210, but that's easy at a glance (2 x 5) x (3 x 7)
 // I am the 64721st to solve this
+
+
+// Euler #41
+// Largest pandigital prime (contains numbers 1 to n, w/o repeats)
+panPrime = function() {
+  const primes = [2,3,5,7]
+  let counter = 10,
+    panPrime = 0,
+    digits = []
+  
+  // check through 7-digit numbers; any number w/ 1-8 or 1-9 is divisible by 3 (non-prime)
+  while (counter < 10000000) {
+    counter++
+    let isPrime = true;
+    for (let i=0; primes[i]<Math.sqrt(counter); i++) {
+      if (counter % primes[i] === 0) {
+        isPrime = false
+        break
+      }
+    }
+    if (isPrime === true) {
+      primes.push(counter)
+      
+      //now check if prime is pan-digital
+      digits = String(counter).split("")
+      let isPan = true;
+      for (let j=1; j<=digits.length; j++) {
+        if (!digits.includes(String(j))) {
+          isPan = false
+          break
+        }
+      }
+      
+      if (isPan === true) {
+        panPrime = counter
+        // console.log(counter)
+      }
+    }
+  }
+  return panPrime
+} //returns 7652413
+// I am the 54633rd to solve this
