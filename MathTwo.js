@@ -826,3 +826,24 @@ panPrime = function() {
   return panPrime
 } //returns 7652413
 // I am the 54633rd to solve this
+
+
+// Euler #42
+// Count of "triangle words" in 1786-word list (sum of letters-as-nums in word = triangular number)
+triWords = function() {
+  const decoder = ['00', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
+                    'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'],
+    triNums = [1, 3, 6, 10, 15, 21, 28, 36, 45, 55, 66, 78, 91, 105, 120, 136, 153, 171, 190, 210,
+                    231, 253, 277, 300, 325, 351, 378, 406, 435, 465], //Tri-30 would need more than 16 Zs
+    words = ["A"], // no need to commit that whole word list, tho!
+    winners = []
+  
+  let triWords = words.filter(word => {
+    let total = word.split("").reduce((acc, letter) => {
+      return acc + decoder.indexOf(letter)
+    }, 0)
+    return triNums.indexOf(total) > -1
+  })
+  return triWords.length
+} //returns 162
+// I am the 60502nd to solve this
