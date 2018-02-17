@@ -936,3 +936,37 @@ pentaDiff = function() {
   return smallestDiff
 } //returns 5482660, diff between 1560090 && 7042750 (sum 8602840)
 // I am the 46336th to solve this
+
+
+// Euler #45
+// 2nd triangular number that is also pentagonal && hexagonal (first is 40755, which is 285th triangular)
+triPentHex = function() {
+  let triCounter = 286,
+    numFound = false,
+    pentCounter = 166,
+    hexCounter = 144,
+    lastPent = 40755,
+    lastHex = 40755,
+    tri = 40755
+  
+  while (numFound === false) {
+    tri = triCounter * (triCounter + 1) / 2
+    while (lastPent < tri) {
+      lastPent = pentCounter * (3 * pentCounter - 1) / 2
+      ++pentCounter
+    }
+    if (lastPent === tri) {
+      while (lastHex < tri) {
+        lastHex = hexCounter * (2 * hexCounter - 1)
+        ++hexCounter
+      }
+      if(lastHex === tri) {
+        numFound = true
+      }
+    }
+    ++triCounter
+  }
+  // console.log(triCounter, pentCounter - 1, hexCounter - 1)
+  return tri
+} // returns 1533776805 (55386th triangular, 31977th pentagonal, 27693rd pentagonal )
+// I am the 57622nd to solve this
