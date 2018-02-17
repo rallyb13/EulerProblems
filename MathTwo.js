@@ -847,3 +847,59 @@ triWords = function() {
   return triWords.length
 } //returns 162
 // I am the 60502nd to solve this
+
+
+// Euler #43
+// Sum of all 10-digit pandigital numbers that have consecutive 3-digit substrings divisible by sequential primes 2-17
+panPrimeSubs = function () {
+  const primes = [13, 11, 7, 5, 3, 2],
+    strDigs = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+  let starter = 102,
+    candidates = [
+      ["017", ["2", "3", "4", "5", "6", "8", "9"]],
+      ["034", ["1", "2", "5", "6", "7", "8", "9"]],
+      ["051", ["2", "3", "4", "6", "7", "8", "9"]],
+      ["068", ["1", "2", "3", "4", "5", "7", "9"]],
+      ["085", ["1", "2", "3", "4", "6", "7", "9"]]
+    ]
+  
+  while (starter < 1000) {
+    let digits = String(starter).split("")
+    if (digits[0] !== digits[1] && digits[1] !== digits[2] && digits[0] !== digits[2]) {
+      let remains = [].concat(strDigs)
+      remains.splice(remains.indexOf(digits[0]), 1)
+      remains.splice(remains.indexOf(digits[1]), 1)
+      remains.splice(remains.indexOf(digits[2]), 1)
+      candidates.push([String(starter), remains])
+      // console.log(starter)
+    }
+    starter += 17
+  }
+
+  while (primes.length) {
+    let divisor = primes.shift(),
+      newCandidates = []
+    
+    while (candidates.length) {
+      let set = candidates.shift(),
+        numStr = set[0],
+        leftovers = set[1]
+      for (let i=0; i<leftovers.length; i++) {
+        let subStr = leftovers[i] + numStr
+        if (Number(subStr.slice(0,3)) % divisor === 0) {
+          let lessRemains = [].concat(leftovers)
+          lessRemains.splice(i, 1)
+          newCandidates.push([subStr, lessRemains])
+        }
+      }
+    }
+    // console.log(newCandidates)
+    candidates = newCandidates
+  }
+  
+  return candidates.reduce((total, arr) => {
+    return total + Number(arr[1][0] + arr[0])
+  }, 0)
+} // returns 16695334890
+// from only [ '4160357289', '1460357289', '4106357289', '1406357289', '4130952867', '1430952867' ]
+// I am the 47688th to solve this
