@@ -903,3 +903,36 @@ panPrimeSubs = function () {
 } // returns 16695334890
 // from only [ '4160357289', '1460357289', '4106357289', '1406357289', '4130952867', '1430952867' ]
 // I am the 47688th to solve this
+
+
+// Euler #44
+// Smallest Difference between two pentagonal numbers who sum and difference are both other pentagonal numbers
+pentaDiff = function() {
+  const pents = []
+  let smallestDiff = 0,
+    counter = 1
+  
+  //get a set of pentagonal numbers
+  //honestly, I just kept increasing this limit--suppose I could have checked sum against equation again, but meh
+  while (counter <= 5000) {
+    pents.push(counter * (counter * 3 - 1) / 2)
+    ++counter
+  }
+  
+  pents.forEach((a, i) => {
+    let j = i + 1
+    
+    while (j < pents.length) {
+      let b = pents[j],
+        diff = b - a
+      
+      if (pents.indexOf(a+b) !== -1 && pents.indexOf(diff) !== -1) {
+        // console.log(a, b, " sum: ", a+b, ' diff: ', diff)
+        smallestDiff = (smallestDiff === 0 || diff < smallestDiff) ? diff : smallestDiff
+      }
+      ++j
+    }
+  })
+  return smallestDiff
+} //returns 5482660, diff between 1560090 && 7042750 (sum 8602840)
+// I am the 46336th to solve this
