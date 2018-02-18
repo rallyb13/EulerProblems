@@ -970,3 +970,57 @@ triPentHex = function() {
   return tri
 } // returns 1533776805 (55386th triangular, 31977th pentagonal, 27693rd pentagonal )
 // I am the 57622nd to solve this
+
+
+// Euler #46
+// First odd composite that can't be formed by adding a prime to 2 * a square
+// (aka: find number that disproves Goldbach's conjecture)
+oddComposite = function() {
+  const primes = [2],
+    doubSquares = [2]
+  let counter = 1,
+    winnerFound = false
+  
+  while (winnerFound === false) {
+    // handle continuous populating of doubSquares
+    ++counter
+    doubSquares.push(counter * counter * 2)
+    ++counter
+    doubSquares.push(counter * counter * 2)
+
+    // identify odds as primes/composites
+    let checkLimit = Math.ceil(Math.sqrt(counter)),
+      isComp = false
+    for (let i=0; primes[i]<=checkLimit && i<primes.length; i++) {
+      if (counter % primes[i] === 0) {
+        isComp = true
+        break
+      }
+    }
+
+    if (isComp === true) {
+      // if composite, look for prime double-square terms that add to counter
+      let termsFound = false
+      for(let j=0; doubSquares[j]<counter && j<doubSquares.length; j++) {
+        for(let k=0; k<primes.length; k++) {
+          if (doubSquares[j] + primes[k] === counter) {
+            termsFound = true
+            // console.log(doubSquares[j], primes[k], counter)
+            break
+          }
+        }
+        if (termsFound === true) {
+          break //break all the way out of the double for-loop
+        }
+      }
+      if (termsFound === false) {
+        winnerFound = true
+      }
+    } else {
+      // record prime
+      primes.push(counter)
+    }
+  }
+  return counter
+} // returns 5777
+// I am the 49022nd to solve this
