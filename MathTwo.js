@@ -1024,3 +1024,78 @@ oddComposite = function() {
   return counter
 } // returns 5777
 // I am the 49022nd to solve this
+
+
+// Euler #47
+// First of 4-consecutive numbers with 4 different prime factors
+fourFacts = function() {
+  //Note: key is number and val is array of *unique* factors
+  const comps = { 4: [2], 6: [2,3] },
+    primes = [2, 3, 5, 7]
+  let counter = 8,
+    series = [],
+    divisor = 0
+  
+  while (series.length !== 4) {
+    let limit = Math.ceil(Math.sqrt(counter)),
+      isPrime = true
+  
+    for (let i=0; primes[i]<limit; i++) {
+      if (counter % primes[i] === 0) {
+        isPrime = false
+        divisor = primes[i]
+        break
+      }
+    }
+  
+    if (isPrime) {
+      primes.push(counter)
+      series = []
+    } else {
+      // for composite, start collecting prime factors
+      let quotient = counter / divisor,
+        facts = [divisor]
+  
+      while (quotient !== 1) {
+        if (primes.indexOf(quotient) !== -1) {
+          // first check if what remains is prime
+          if (facts.indexOf(quotient) === -1) {
+            facts.push(quotient)
+          }
+          quotient = 1
+        } else if (comps.quotient !== null && typeof comps.quotient === 'object') {
+          // next check if we've already factored this composite; take all new factors
+          comps.quotient.forEach(num => {
+            if (facts.indexOf(num) === -1) {
+              facts.push(num)
+            }
+          })
+          quotient = 1
+        } else {
+          //keep hunting for prime factors
+          if (quotient % divisor === 0) {
+            //record divisor && set new quotient
+            quotient = quotient / divisor
+            if (facts.indexOf(divisor) === -1) {
+              facts.push(divisor)
+            }
+          } else {
+            // identify next potential divisor
+            divisor = primes[primes.indexOf(divisor) + 1]
+          }
+        }
+      }
+      comps.counter = facts
+      if (facts.length === 4) {
+        // console.log(counter, facts)
+        series.push(counter)
+      } else {
+        series = []
+      }
+    }
+    ++counter
+  }
+  return series[0]
+} // returns 134043
+// 134043 [ 3, 7, 13, 491 ], 134044 [ 2, 23, 31, 47 ], 134045 [ 5, 17, 19, 83 ], 134046 [ 2, 3, 11, 677 ]
+// I am the 46379th to solve this
