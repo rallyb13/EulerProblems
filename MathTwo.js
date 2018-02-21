@@ -1118,7 +1118,7 @@ selfPow = function() {
       }
       ++ticker
     }
-    console.log(product)
+    // console.log(product)
     total += product
     ++counter
   }
@@ -1127,3 +1127,78 @@ selfPow = function() {
 // I am the 92516th to solve this
 
 
+// Euler #49
+// 3 4-digit prime numbers that are permutations of the same digits
+// AND where middle number is equidistant between other two (1487, 4817, 8147 is only other set)
+primeSet = function() {
+  const primes = [2, 3, 5, 7],
+    bigPrimes = [],
+    candidates = [],
+    smalls = [],
+    sets = {}
+  let counter = 11
+
+  while (counter < 10000) {
+    let limit = Math.ceil(Math.sqrt(counter)),
+      isPrime = true
+
+    for (let i=0; primes[i]<limit; i++) {
+      if (counter % primes[i] === 0) {
+        isPrime = false
+        break
+      }
+    }
+
+    if (isPrime) {
+      primes.push(counter)
+      if (counter > 1000) {
+        let smallest = String(counter).split("").sort().join("")
+        if (smalls.indexOf(smallest) === -1) {
+          smalls.push(smallest)
+        } else {
+          if (candidates.indexOf(smallest) === -1) {
+            candidates.push(String(smallest))
+          }
+        }
+        bigPrimes.push(counter)
+      }
+    }
+    counter += 2
+  }
+  
+  //prime-finding done, so collect sets from candidates (imperfect, with 2x numbers)
+  while (candidates.length) {
+    let next = candidates.shift(),
+      matches = bigPrimes.filter( num => {
+        return String(num).split("").sort().join("") === String(next).split("").sort().join("")
+      })
+    if (matches.length > 2) {
+      let diffs = [],
+        winner = false,
+        testers = [].concat(matches)
+      while (testers.length && winner === false) {
+        let test = testers.shift()
+        for (let j=0; j<testers.length; j++) {
+          let diff = testers[j] - test
+          if (diffs.indexOf(diff) !== -1) {
+            winner = true
+            diffs = [diff]
+            break
+          } else {
+            diffs.push(diff)
+          }
+        }
+      }
+      if (winner === true) {
+        let keyDiff = diffs[0]
+        if (keyDiff > 1000 && keyDiff < 5000) { //imperfect as another repeated diff could set it off first
+          // console.log(keyDiff, matches)
+          sets[keyDiff] = matches
+        }
+      }
+    }
+  }
+  return sets
+} // Oooooh, the problem meant specifically another set with the 3330 diff
+// geez, that woulda been easier. As it is, this set jumped out: 2969, 6299, 9629
+// I am the 46380th to solve this (though chagrined)
