@@ -1099,3 +1099,31 @@ fourFacts = function() {
 } // returns 134043
 // 134043 [ 3, 7, 13, 491 ], 134044 [ 2, 23, 31, 47 ], 134045 [ 5, 17, 19, 83 ], 134046 [ 2, 3, 11, 677 ]
 // I am the 46379th to solve this
+
+
+// Euler #48
+// last ten digits of sum of numbers 1 to 1000 raised to their own powers
+selfPow = function() {
+  let total = 1,
+    counter = 2
+  
+  while (counter < 1001) {
+    let product = counter,
+      ticker = 1
+  
+    while (ticker < counter) {
+      product = product * counter
+      if (product > 10000000000) {
+        product = Number(String(product).slice(-10))
+      }
+      ++ticker
+    }
+    console.log(product)
+    total += product
+    ++counter
+  }
+  return total
+} // returns 4639110846700, so 9110846700
+// I am the 92516th to solve this
+
+
