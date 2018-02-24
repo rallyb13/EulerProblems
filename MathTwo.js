@@ -1202,3 +1202,48 @@ primeSet = function() {
 } // Oooooh, the problem meant specifically another set with the 3330 diff
 // geez, that woulda been easier. As it is, this set jumped out: 2969, 6299, 9629
 // I am the 46380th to solve this (though chagrined)
+
+
+// Euler #50
+// prime under 1million that is the sum of most consecutive primes
+primeSum = function() {
+  const primes = [2]
+  let counter = 3,
+    totals = [2]
+
+  while (counter < 1000000) {
+    let limit = Math.ceil(Math.sqrt(counter)),
+      isPrime = true
+
+    for (let i=0; primes[i]<=limit; i++) {
+      if (counter % primes[i] === 0) {
+        isPrime = false
+        break
+      }
+    }
+
+    if (isPrime === true) {
+      primes.push(counter)
+      if (counter + totals[0] < 1000000) {
+        let nextTotals = totals.map(num => num + counter )
+        totals = nextTotals
+        if (totals.length < 25) { // 25 is arbitrary, but good enough!
+          totals.push(counter)
+        }
+      }
+    }
+    ++counter
+  }
+  
+  let found = false,
+    test = 0
+  while (found === false && totals.length) {
+    test = totals.shift()
+    if (primes.indexOf(test) !== -1) {
+      found = true
+    }
+  }
+  test = found === true ? test : 0 // if 0 returned, I need to collect more starter numbers
+  return test
+} // returns 997651
+// I am the 49990th to solve this && the 44070th (within 5.65%) to make it this far!
