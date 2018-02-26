@@ -1,3 +1,5 @@
+// Eulers 1-25
+
 // Euler Problem #1
 // Sum of all multiples of 3 and 5 up to 1000 (non-inclusive)
 multiples = function () {

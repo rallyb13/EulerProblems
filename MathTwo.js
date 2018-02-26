@@ -1,3 +1,5 @@
+// Eulers 26-50
+
 // Euler #26
 // longest recurring cycle when unit fraction converted to decimal for denominators less than 1000
 unitFract = function() {
