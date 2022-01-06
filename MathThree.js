@@ -92,3 +92,56 @@ primeFam = function() {
   return winners
 } // returns 5 sets, starting with: [ 121313, 222323, 323333, 424343, 525353, 626363, 828383, 929393 ] x2y3z3
 // I am the 26182nd to solve this
+
+
+// Euler #52
+// Smallest number x whose digits rearranged into 2x, 3x, 4x, 5x, & 6x
+permutedMultiples = function() {
+  let starter = 10;
+  let ender = 16;
+  let matchAll = false;
+  let candidate;
+  
+  while (matchAll === false) {
+    candidate = starter;
+    
+    while(candidate <= ender && matchAll === false) {
+      let origDigits = String(candidate).split("");
+      let multipleSets = [
+        String(candidate * 2).split(""),
+        String(candidate * 3).split(""),
+        String(candidate * 4).split(""),
+        String(candidate * 5).split(""),
+        String(candidate * 6).split("")
+      ];
+
+      let matchDigit = true;
+      while (matchDigit === true && origDigits.length) {
+        const digitToMatch = origDigits.shift();
+        for (var i=0; i < multipleSets.length; i++) {
+          const digitSet = multipleSets[i]
+          const indexOfMatch = digitSet.indexOf(digitToMatch);
+
+          if (indexOfMatch === -1) {
+            matchDigit = false;
+            break;
+          } else {
+            digitSet.splice(indexOfMatch, 1);
+          }
+        }
+      }
+
+      if (matchDigit === true) {
+        matchAll = true;
+      } else {
+        ++candidate
+      }
+    }
+
+    starter = starter * 10;
+    ender = ender * 10 + 6;
+  }
+  
+  return candidate;
+} // returns 142857
+// I am the 65984th to solve this
